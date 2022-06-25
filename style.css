@@ -1,0 +1,13 @@
+body {
+    margin: 0px;
+    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+canvas {
+    border: 2px solid rgb(127, 246, 212);
+    box-shadow: #6bf8db 20px 10px 40px;
+}
