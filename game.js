@@ -3,19 +3,34 @@ const ctx = canvas.getContext('2d');
 
 let speed = 10;
 
-let tileCount = 25;
+let tileCount = 20;
 let tileSize = canvas.width / tileCount - 5;
 let headX = 10;
 let headY = 10;
 
+let appleX = 5;
+let appleY = 5;
+
 let xVelocity = 0;
 let yVelocity = 0;
+
+let score = 0;
 
 function startGame(){
     clearScreen();
     moveSnake();
+
+    eatApple();
+    drawApple();
     drawSnake();
+    drawScore();
     setTimeout(startGame, 1000/speed);
+}
+
+function drawScore() {
+    ctx.fillStyle = '#c50707';
+    ctx.font = "10px Arial"
+    ctx.fillText('Score ' + score, canvas.width - 55, 10);
 }
 
 function clearScreen() {
@@ -30,47 +45,26 @@ function drawSnake() {
 }
 
 function moveSnake() {
-    headX += xVelocity
-    headY += yVelocity
+    headX += xVelocity;
+    headY += yVelocity;
 }
 
-document.body.addEventListener("keydown", keyDown);
-
-function keyDown(event) {
-    //up
-    if(event.keyCode === 38) {
-        if(yVelocity === 1) {
-            return;
-        }
-        xVelocity = 0;
-        yVelocity = -1;
-    }
-    //down
-    if(event.keyCode === 40 ) {
-        if(yVelocity === -1) {
-            return;
-        }
-        xVelocity = 0;
-        yVelocity = 1;
-    }
-    //left
-    if(event.keyCode === 37) {
-        if(xVelocity === 1) {
-            return;
-        }
-        xVelocity = -1;
-        yVelocity = 0;
-    }
-    //right
-    if(event.keyCode === 39) {
-        if(xVelocity === -1) {
-            return;
-        }
-        xVelocity = +1;
-        yVelocity = 0;
-    }
-
+function drawApple() {
+    ctx.fillStyle = '#1cee0f';
+    ctx.fillRect(appleX*tileCount, appleY*tileCount, tileSize, tileSize);
 }
+
+function eatApple() {
+    if(appleX === headX && appleY === headY) {
+        appleX = Math.floor(Math.random()*tileCount);
+        appleY = Math.floor(Math.random()*tileCount);
+        score++;
+    }
+}
+
+
+
+
 
 
 
