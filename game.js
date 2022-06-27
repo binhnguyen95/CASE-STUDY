@@ -75,9 +75,9 @@ function isGameOver() {
     }
 
     if(gameOver) {
-        ctx.fillStyle = '#e80ae6'
-        ctx.font = '50px Arial'
-        ctx.fillText('R.I.P :(', canvas.width/3, canvas.height/2)
+        ctx.fillStyle = '#171f2f'
+        ctx.font = '30px Arial'
+        ctx.fillText('GAME OVER!', canvas.width/3.5, canvas.height/2)
     }
     return gameOver
 }
@@ -95,7 +95,7 @@ function clearScreen() {
 
 function drawSnake() {
     //body
-    ctx.fillStyle = '#af51e8';
+    ctx.fillStyle = 'rgba(198,135,239,0.45)';
     for(let i = 0; i < snakeBody.length; i++) {
         let part = snakeBody[i];
         ctx.fillRect(part.x * tileCount, part.y * tileCount , tileSize, tileSize);
