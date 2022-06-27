@@ -41,6 +41,12 @@ function startGame(){
     drawApple();
     drawSnake();
     drawScore();
+    if (score > 5) {
+        speed = 15;
+    }
+    if (score > 10) {
+        speed = 20;
+    }
 
     setTimeout(startGame, 1000/speed);
 }
@@ -52,7 +58,7 @@ function isGameOver() {
         return false
     }
 
-    //walls
+    //hit walls
     if (headX < 0) {
         gameOver = true;
     }
@@ -66,6 +72,7 @@ function isGameOver() {
         gameOver = true;
     }
 
+    //hit body
     for (let i = 0; i < snakeBody.length; i++) {
         let part = snakeBody[i];
         if (part.x === headX && part.y === headY) {
@@ -95,7 +102,7 @@ function clearScreen() {
 
 function drawSnake() {
     //body
-    ctx.fillStyle = 'rgba(198,135,239,0.45)';
+    ctx.fillStyle = 'rgba(140,51,197,0.45)';
     for(let i = 0; i < snakeBody.length; i++) {
         let part = snakeBody[i];
         ctx.fillRect(part.x * tileCount, part.y * tileCount , tileSize, tileSize);
@@ -104,8 +111,9 @@ function drawSnake() {
     if(snakeBody.length > tailLength) {
         snakeBody.shift();
     }
+
     //head
-    ctx.fillStyle = '#f31831';
+    ctx.fillStyle = '#ef324a';
     ctx.fillRect(headX * tileCount, headY * tileCount , tileSize, tileSize);
 }
 
@@ -115,7 +123,7 @@ function moveSnake() {
 }
 
 function drawApple() {
-    ctx.fillStyle = '#1cee0f';
+    ctx.fillStyle = '#3fe135';
     ctx.fillRect(appleX*tileCount, appleY*tileCount, tileSize, tileSize);
 }
 
@@ -124,8 +132,10 @@ function eatApple() {
         appleX = Math.floor(Math.random()*tileCount);
         appleY = Math.floor(Math.random()*tileCount);
         tailLength++;
-        score++;
+        score++
     }
 }
+
+
 startGame()
 
