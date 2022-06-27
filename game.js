@@ -1,12 +1,25 @@
 const canvas = document.getElementById('game');
 const ctx = canvas.getContext('2d');
 
+class SnakePart {
+    x;
+    y;
+
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+    }
+}
+
 let speed = 10;
 
 let tileCount = 20;
 let tileSize = canvas.width / tileCount - 4;
+
 let headX = 10;
 let headY = 10;
+let snakeBody = [];
+let tailLength = 2;
 
 let appleX = 5;
 let appleY = 5;
@@ -34,6 +47,11 @@ function startGame(){
 
 function isGameOver() {
     let gameOver = false;
+
+    if (xVelocity === 0 && yVelocity === 0) {
+        return false
+    }
+
     //walls
     if (headX < 0) {
         gameOver = true;
@@ -48,12 +66,19 @@ function isGameOver() {
         gameOver = true;
     }
 
+    for (let i = 0; i < snakeBody.length; i++) {
+        let part = snakeBody[i];
+        if (part.x === headX && part.y === headY) {
+            gameOver = true;
+            break;
+        }
+    }
+
     if(gameOver) {
         ctx.fillStyle = '#e80ae6'
         ctx.font = '50px Arial'
         ctx.fillText('R.I.P :(', canvas.width/3, canvas.height/2)
     }
-
     return gameOver
 }
 
@@ -68,10 +93,20 @@ function clearScreen() {
     ctx.fillRect(0, 0, canvas.width, canvas.height);
 }
 
-
 function drawSnake() {
+    //body
+    ctx.fillStyle = '#af51e8';
+    for(let i = 0; i < snakeBody.length; i++) {
+        let part = snakeBody[i];
+        ctx.fillRect(part.x * tileCount, part.y * tileCount , tileSize, tileSize);
+    }
+    snakeBody.push(new SnakePart(headX, headY));
+    if(snakeBody.length > tailLength) {
+        snakeBody.shift();
+    }
+    //head
     ctx.fillStyle = '#f31831';
-    ctx.fillRect(headX*tileCount, headY*tileCount , tileSize,tileSize);
+    ctx.fillRect(headX * tileCount, headY * tileCount , tileSize, tileSize);
 }
 
 function moveSnake() {
@@ -88,6 +123,7 @@ function eatApple() {
     if(appleX === headX && appleY === headY) {
         appleX = Math.floor(Math.random()*tileCount);
         appleY = Math.floor(Math.random()*tileCount);
+        tailLength++;
         score++;
     }
 }
